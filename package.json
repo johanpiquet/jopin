@@ -1,0 +1,23 @@
+{
+  "name": "jopin",
+  "version": "1.0.5",
+  "private": false,
+  "license": "MIT",
+  "keywords": ["loader"],
+  "description": "The jopin tool of jopi-loader.",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "type": "module",
+  "files": ["bin"],
+  "bin": {
+  "jopin": "bin/jopin.js"
+},
+"dependencies": {
+  "@jopi-loader/tools": "latest"
+},
+"scripts": {
+  "bun-publish": "bun publish"
+},
+"jopiMono_MustIgnoreDependencies": true
+}
