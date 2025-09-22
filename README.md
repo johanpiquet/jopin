@@ -4,11 +4,10 @@
 
 It's a loader, which has two goals:
 * Allowing custom imports for node.js and bun.js.
-* Offer watcher doing automatic restart on file change and automatic browser refresh.
+* Enable a watcher doing automatic restart on file change and automatic browser refresh.
 
-## Custom imports
 
-### What are custom imports?
+## What are custom imports?
 
 With node.js, you can't import a CSS file. Doing this `import "./my-css.scss` throw an error.
 It's a matter if you want to do React SSR (Server Side Rendering).
@@ -24,40 +23,17 @@ It's doing it by mimicking `Vite.js`, which allows importing CSS / image / ...
   * `import asDataUrl from "./my-image.png?inline`.
   * `import asRawText from "./my-text.txt?raw`.
 
-> **Warning** - Importing CSS and image file have different behaviors:
->  * With Vite.js, we get the url.
->  * Here we get the absolute path on the server.
->
-> It's why you must add a path-converting step in your code, which is specific to your web-framework technology.
+## How to use this tool?
 
-### How to enable it?
+The tool `jopin` is used as a replacement for the `node` tool.  
+Where you type: `node ./myScript.js`, you will do `npx jopin ./myScript.js`.
 
-The easier way, is to use the command line tools `jopin` (for node) or `jopib` (for bun).
-
-**You use it as a replacement for node / bun.**  
-Where you type: `node ./myScript.js`, you will do `jopin ./myScript.js`.
-
-> This tools are compatible with debugging, doing that you can simply change
-> the setting of your IDE to use jopin/jopib as a drop-in replacement.
-> 
-> The linux command `which jopin` give you the installation path.
-> 
-If you want to manually run the loader, you have to use special node/bun options:
-```
-node --import jopi-loader ./myScript.js
-bun --preload jopi-loader ./myScript.js
-```
-
-With bun, you can also use a `bunfig.toml` file.
-
-```toml
-preload = ["jopi-loader"]
-```
+Internally, it will enable some node.js flags and plugins, which require a special configuration.
 
 ## Typescript config
 
 If you are using TypeScript, you need an extra entry in your `tsconfig.json` file.
-This file allows TypeScript to know how to handle these imports.
+This file allows TypeScript to know how to handle these special imports.
 
 ```json
 {
@@ -67,73 +43,21 @@ This file allows TypeScript to know how to handle these imports.
 }
 ```
 
-## The 'jopin' command line tools
+## Developer mode
 
-This tool allows executing node.js or bun.js while preloading 'jopi-loader'.
-It'd also automatically enable source change watching, restarting the server when sources are updated,
-and a lot of interesting things!
+You can enable the developer mode with the command line flag `--jopi-dev`.
+When enabled, it will :
+* Watch directories for changes and compile.
+* Automatically refresh the browser on source change.
+* Start the script jopiWatch when launching.
 
-> If you are using bun.js, then it's the tool `jopib`.
+> Browser refresh only works with web-page using Jopi Rewrite.
 
-### Executing
-
-You need to install the tool globally: `npm install jopi-loader --global`.
-Doing it make `jopin` available anywhere on your system.
-
-Once installed, you use it as a drop-in replacement for node.js.
-Where you type `node` now you type `jopin'.
-The tool is available once the package `jopi-loader` is installed.
-
-### Watching dirs
-
-`jopin` automatically watch source change when you are not in production mode.
-To disable it:
-* You must set the environment variable `NODE_ENV` to value 'production'.
-* Or disable it by using the settings in `package.json`.
-
-**Sample package.json:**
-```json
-{
-  "scripts": {},
-  "dependencies": {},
-  "jopi": {
-    "watch": true   // enable it, even if production mode
-  }
-}
-```
-
-### Setting extra preload
-
-`jopin` preload the package `jopi-loader`. If required, you can use a setting inside `package.json` in order to preload other packages. 
-
-**Sample package.json:**
-```json 
-{
-  "scripts": {},
-  "dependencies": {},
-  "jopi": {
-    "preload": [
-      // To known: this package must be present in your 'node_modules'.
-      // Installing them globally doesn't work.
-      //
-      "my-first-package-to-preload",
-      "my-second-package-to-preload"
-    ]
-  }
-}
-```
-
-> The package `jopi-rewrite` is always imported if found in your dependencies.
- 
 ### Recompiling sources
 
 If you are using node.js and TypeScript, you need to recompile sources when a change occurs.
-It's only once recompiled that the node.js watching system (on which we are relying) detects the changes.
-
-For this reason, you need to execute `tsc --watch` before executing jopin.
-
-It's the thing than can be automatized, for that you only need to add a entry named `jopiWatch` in the `scripts`
-section of your `package.json`. jopin will automatically execute this task, and kill it when exiting.
+For that, the tool `jopin` searchs and execute a script named `jopiWatch` in your `package.json`
+which is executed when the application is started, and killed when the application stops.
 
 **Sample package.json**
 
@@ -145,16 +69,14 @@ section of your `package.json`. jopin will automatically execute this task, and 
 }
 ```
 
-### Integrating browser auto-refresh
+> This functionality only works in development mode when using the command line flag `--jopi-dev'.
 
-`jopin` allows automatic refresh of the browser when a source change is found.
-It's a functionality that is straightforward to add in your server code.
+### Browser refresh
 
-To do it, you have to use this function of the library `@jopi-loader/client`:
-* `isSourceWatchingEnabled()`: allows knowing if we are using jopin and if he is in watching mode.
-* `isBrowserRefreshEnabled()`: is true if this functionnality is enabled.
-* `getBrowserRefreshHtmlSnippet()`: get a snippet to include in your HTML page.  
-* `declareServerReady()`: say jopin that the server is ready.
-* `mustWaitServerReady()`: say jopin that he must wait bedore refresh the browser.
-* `askRefreshingBrowser()`: ask jopin to refresh the browser content.
+With dev mode enabled, your browser page automatically refreshes when the server restart.
+It doesn't refresh immediately, but when the server is ready internally, doing that the
+refresh doesn't occur too soon.
 
+> With Node.js, this process is slow because Node.js requires TypeScript to JavaScript compilation.
+> If you want a very fast refresh cycle in order to test design, you woul prefer using Bun.js with
+> which all is near instantly.
