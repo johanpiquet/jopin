@@ -78,5 +78,12 @@ It doesn't refresh immediately, but when the server is ready internally, doing t
 refresh doesn't occur too soon.
 
 > With Node.js, this process is slow because Node.js requires TypeScript to JavaScript compilation.
-> If you want a very fast refresh cycle in order to test design, you woul prefer using Bun.js with
+> If you want a very fast refresh cycle to test design, you woul prefer using Bun.js with
 > which all is near instantly.
+
+### Forcing websocket port
+
+Browser refresh uses a websocket to work. Port is found by testing free port, from 5100 to 5400.  
+When using Docker, you can been interested to force this port, to be able to bind it to the remote host.
+
+For that, you can use the environment variable `JOPIN_WEBSOCKET_PORT`. 
