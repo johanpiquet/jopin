@@ -57,14 +57,15 @@ When enabled, it will :
 
 If you are using node.js and TypeScript, you need to recompile sources when a change occurs.
 For that, the tool `jopin` searchs and execute a script named `jopiWatch` in your `package.json`
-which is executed when the application is started, and killed when the application stops.
+(+ `jopiWatch_node` for node.js specifi, and `jopiWatch_bun`) which is executed when the application is started,
+and killed when the application stops.
 
 **Sample package.json**
 
 ```json
 {
   "scripts": {
-    "jopiWatch": "tsc --watch"
+    "jopiWatch_node": "tsc --watch"
   }
 }
 ```
