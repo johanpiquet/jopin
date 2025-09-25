@@ -1,6 +1,6 @@
 {
   "name": "jopin",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -19,5 +19,5 @@
 "scripts": {
   "bun-publish": "bun publish"
 },
-"jopiMono_MustIgnoreDependencies": true
+"jopiMono_MustIgnoreDependencies": true,"publishedDate": "9/25/2025","publicPublishedDate": "9/25/2025"
 }
