@@ -6,7 +6,6 @@ It's a loader, which has two goals:
 * Allowing custom imports for node.js and bun.js.
 * Enable a watcher doing automatic restart on file change and automatic browser refresh.
 
-
 ## What are custom imports?
 
 With node.js, you can't import a CSS file. Doing this `import "./my-css.scss` throw an error.
@@ -22,6 +21,8 @@ It's doing it by mimicking `Vite.js`, which allows importing CSS / image / ...
   * `import serverFilePath from "./my-image.png`.
   * `import asDataUrl from "./my-image.png?inline`.
   * `import asRawText from "./my-text.txt?raw`.
+
+* Import with alias: `import myComp form "@/lib/myComp";`
 
 ## How to use this tool?
 
@@ -43,6 +44,21 @@ This file allows TypeScript to know how to handle these special imports.
 }
 ```
 
+If you want to use alias (ex: `import myComp form "@/lib/myComp";`) then you need to declare your alias here
+
+**Exemple for ShadCN**
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/shadcn/*"],
+      "@/lib/*": ["./src/shadcn/lib/*"],
+      "@/components/*": ["./src/shadcn/components/*"]
+    }
+  }
+}
+```
+
 ## Developer mode
 
 You can enable the developer mode with the command line flag `--jopi-dev`.
@@ -56,8 +72,8 @@ When enabled, it will :
 ### Recompiling sources
 
 If you are using node.js and TypeScript, you need to recompile sources when a change occurs.
-For that, the tool `jopin` searchs and execute a script named `jopiWatch` in your `package.json`
-(+ `jopiWatch_node` for node.js specifi, and `jopiWatch_bun`) which is executed when the application is started,
+For that, the tool `jopin` searches and execute a script named `jopiWatch` in your `package.json`
+(+ `jopiWatch_node` for node.js specific, and `jopiWatch_bun`) which is executed when the application is started,
 and killed when the application stops.
 
 **Sample package.json**
