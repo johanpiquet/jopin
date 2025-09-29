@@ -3,21 +3,29 @@
   "version": "1.0.10",
   "private": false,
   "license": "MIT",
-  "keywords": ["loader"],
+  "keywords": [
+    "loader"
+  ],
   "description": "The jopin tool of jopi-loader.",
   "engines": {
     "node": ">=22.18.0"
   },
+  "main": "index.js",
   "type": "module",
-  "files": ["bin"],
+  "files": [
+    "bin",
+    "index.js"
+  ],
   "bin": {
-  "jopin": "bin/jopin.js"
-},
-"dependencies": {
-  "@jopi-loader/tools": "latest"
-},
-"scripts": {
-  "bun-publish": "bun publish"
-},
-"jopiMono_MustIgnoreDependencies": true,"publishedDate": "9/25/2025","publicPublishedDate": "9/25/2025"
+    "jopin": "bin/jopin.js"
+  },
+  "dependencies": {
+    "@jopi-loader/tools": "workspace:^"
+  },
+  "scripts": {
+    "bun-publish": "bun publish"
+  },
+  "jopiMono_MustForceLatestVersion": true,
+  "publishedDate": "9/25/2025",
+  "publicPublishedDate": "9/25/2025"
 }
