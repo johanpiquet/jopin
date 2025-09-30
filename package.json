@@ -1,6 +1,6 @@
 {
   "name": "jopin",
-  "version": "1.0.10",
+  "version": "1.0.17",
   "private": false,
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,7 @@
     "jopin": "bin/jopin.js"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace:^"
+    "@jopi-loader/tools": "latest"
   },
   "scripts": {
     "bun-publish": "bun publish"
@@ -28,6 +28,6 @@
 
   "jopiMono_MustForceLatestVersion": true,
 
-  "publishedDate": "9/25/2025",
+  "publishedDate": "9/30/2025",
   "publicPublishedDate": "9/25/2025"
 }

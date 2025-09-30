@@ -1,6 +1,14 @@
 import {createRequire} from "node:module";
 
 export function doJopiN() {
+    useEngine("node");
+}
+
+export function doJopiB() {
+    useEngine("bun");
+}
+
+export function useEngine(engine: string) {
     const myRequire = createRequire(import.meta.url);
 
     if (process.env.JOPI_LOG==="1") {
@@ -9,5 +17,5 @@ export function doJopiN() {
     }
 
     const lib = myRequire("@jopi-loader/tools");
-    lib.jopiLauncherTool("node").then();
+    lib.jopiLauncherTool(engine).then();
 }
