@@ -9,7 +9,7 @@ export function doJopiB() {
 }
 
 export function useEngine(engine: string) {
-    const myRequire = createRequire(import.meta.url);
+    const myRequire = createRequire(process.cwd());
 
     if (process.env.JOPI_LOG==="1") {
         let resolvedDir = myRequire.resolve("@jopi-loader/tools");
